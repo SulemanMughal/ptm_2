@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+
+
+    
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+
+
+
+
+
+
+    <title>UpClinch</title>
+
+    <style>
+    
+        .card-title{
+            color: red;
+        }
+      /* unvisited link */
+      .alert-link:link {
+  color: red;
+}
+
+/* visited link */
+.alert-link:visited {
+  color: red;
+}
+
+/* mouse over link */
+.alert-link:hover {
+  color: red;
+}
+
+/* selected link */
+.alert-link:active {
+  color: red;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+    </style>
+
+
+<link rel="stylesheet" href="multirange.css">
+
+<style>
+
+input[type="range"]::-webkit-slider-thumb {
+    width: 1rem;
+    height: 1rem;
+    margin-top: -.25rem;
+    background-color: #007bff;
+    border: 0;
+    border-radius: 3rem;
+    -webkit-transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: sliderthumb-horizontal;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 3rem;
+    /* -webkit-user-modify: read-only !important; */
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: .5rem;
+    color: transparent;
+    cursor: pointer;
+    background-color: #dee2e6;
+    border-color: transparent;
+    border-radius: 1rem;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+   
+    <div class="mx-auto mt-4" style="width: 80%;">
+        <div class="card mx-auto border-0" style="width: 100%;">
+            
+            <div class="card-body">
+                
+                <div class="float-right">
+                  <a href="{% url 'home' %}" class="alert-link">Home</a>&nbsp;&nbsp;
+    <a href="{% url 'search' %}" class="alert-link">Search</a> &nbsp;&nbsp;
+          <a href="{% url 'manage-lists' %}" class="alert-link">Interest Lists</a> &nbsp;&nbsp; 
+          <a href="{% url 'tour-requests' %}"  class="alert-link">Tours</a>   &nbsp;&nbsp;
+          <a href="{% url 'offers' %}" class="alert-link">Offers</a> &nbsp;&nbsp;
+          {% if agentcheck %}
+          <a href="{% url 'listofbuyers' %}" class="alert-link">Buyers</a>&nbsp;&nbsp;
+          {% endif %}
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="alert-link">Logout</a>&nbsp;&nbsp;
+          {% else %}
+          <a href="{% url 'login' %}" class="alert-link">Login</a>&nbsp;&nbsp;
+          <a href="{% url 'register' %}" class="alert-link">Sign Up</a>
+          {% endif %}
+                      </div>
+                
+              <h3 class="card-title text-center">Profile</h3>
+              <div id="accordion">
+                <div class="card border-0">
+                  <div class="card-header bg-transparent" id="headingOne">
+                    
+                    
+                    <div class="float-right" id="change_password_id">
+                      <a href="{% url 'change_password' %}" class="alert-link">Change Password</a> &nbsp; 
+                    
+              </div>
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Basic Info &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseOneCaret"></i>
+                      </button>
+                    </h5>
+                    
+                    
+                  </div>
+                  
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="float-right" style="z-index:999; margin-top:-30px;">
+                      <a href="{% url 'change_password' %}" class="alert-link">Change Password</a> &nbsp; 
+                      <a href="#" onclick="document.getElementById('basicinfo').submit()"  class="alert-link">Save</a>   &nbsp;
+                      <a href="" class="alert-link">Cancel</a>
+                    
+              </div>
+                    <div class="card-body mx-auto" style="width: 50rem;">
+                        <form method="POST" id="basicinfo" action=".">
+                          {% csrf_token %}
+                            
+                          <div class="form-group row">
+                            <label for="id_username" class="col-sm-3 col-form-label pr-0 text-right">Name  <span class="text-danger font-weight-bold">*</span></label>
+                            <div class="col-sm-7">
+                            <input type="text" name="username" required maxlength="30" id="id_username" autocomplete="off"
+                                    class="form-control" value="{{ request.user.username }}" placeholder="{{ request.user.username }}">
+                            </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="id_email" class="col-sm-3 col-form-label pr-0 text-right">Email <span class="text-danger font-weight-bold">*</span></label>
+                        <div class="col-sm-7">
+                        <input type="email" name="email" required id="id_email" class="form-control" autocomplete="off" value="{{ request.user.email }}" placeholder="{{ request.user.email }}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                  <label for="phone" class="col-sm-3 col-form-label pl-5 pr-2 text-right">Phone</label>
+                  <div class="col-sm-7">
+                  <input type="text" name="phone" id="id_phone" class="form-control" maxlength="11" autocomplete="off" value="{{ profile.phone }}" placeholder="{{ profile.phone }}">
+          </div>
+
+          
+                  
+          </div>
+                              
+          <div class="form-group row">
+            <label for="occupation" class="col-sm-3 col-form-label pl-5 pr-2 text-right">Occupation</label>
+            <div class="col-sm-7">
+            <input type="text" name="occupation" id="id_occupation" class="form-control" maxlength="200" autocomplete="off" value="{{ profile.occupation }}" placeholder="{{ profile.occupation }}">
+            
+            
+    </div>
+    </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="card border-0">
+                  <div class="card-header bg-transparent" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Property Requirements &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseTwoCaret"></i>
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="float-right" style="z-index:999; margin-top:-30px;">
+                      <a href="#" onclick="document.getElementById('profile_second_form').submit()"  class="alert-link">Save</a>   &nbsp;
+                      <a href="" class="alert-link">Cancel</a>
+                    
+              </div>
+                    <div class="card-body" style="width:50rem;">
+                      <form id="profile_second_form">
+                        {% csrf_token %}
+                        <div class="form-group row" style="width:800px;">
+                          <label for="inputName" class="col-sm-3 col-form-label">Property Type</label>
+                          <div class="col-sm-9">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                              <label onclick="megafunc('8','Single Family')" class="btn btn-outline-dark{% if profile.property_type == 'Single Family' %}  active {% endif %}">
+                                <input type="checkbox" > Single Family
+                              </label>
+
+                              <label onclick="megafunc('8','Town Hpme')" class="btn btn-outline-dark{% if profile.property_type == 'Town Home' %}  active {% endif %}">
+                                <input type="checkbox" > Town Home
+                              </label>
+
+                              <label onclick="megafunc('8','Condominium')" class="btn btn-outline-dark{% if profile.property_type == 'Condominium' %}  active {% endif %}">
+                                <input type="checkbox" > Condominium
+                              </label>
+
+                              <label onclick="megafunc('8','Multi Family')" class="btn btn-outline-dark{% if profile.property_type == 'Multi Family' %}  active {% endif %}">
+                                <input type="checkbox" > Multi Family
+                              </label>
+
+                              <label onclick="megafunc('8','Land')" class="btn btn-outline-dark{% if profile.property_type == 'Land' %}  active {% endif %}">
+                                <input type="checkbox" > Land
+                              </label>
+                            </div>
+
+                       
+                          </div> 
+                        </div>
+                        <div class="form-group row" style="width:700px;">
+                            <label for="staticMin" class="col-sm-3 col-form-label ml-4 pl-5">Price</label>
+                            <div class="col-sm-2">
+                              <input type="number"  class="form-control" id="staticMin" placeholder="min" value="{{profile.minprice}}" onchange="megafunc('1',this.value)">
+                              
+                            </div>
+                            <label for="staticMin" class="row-sm-1 col-form-label">to</label>
+                            <div class="col-sm-2">
+                            <input type="number"  class="form-control" id="staticMin" placeholder="max" value="{{profile.maxprice}}" onchange="megafunc('2',this.value)">
+                          </div>
+                          <label for="staticMin" class="row-sm-1 col-form-label m-0 ml-1">Stories</label>
+                          <div class="col-sm-2">
+                            <input type="number"  class="form-control" id="staticMin" placeholder="Stories" value="{{profile.stories}}" onchange="megafunc('3',this.value)">
+                          </div>
+                          </div>
+                          <div class="form-group row" style="width:800px;">
+                            <label for="staticMin" class="col-sm-3 col-form-label ml-0 pl-3">Square Feet</label>
+                            <div class="col-sm-2">
+                              <input type="number"  class="form-control col-sm-10" id="staticMin" placeholder="min" value="{{profile.minsqft}}" onchange="megafunc('4',this.value)">
+                              
+                            </div>
+                            <label for="staticMin" class="row col-form-label mr-0 pr-0">to</label>
+                            <div class="col-sm-2">
+                            <input type="number"  class="form-control col-sm-10" id="staticMin" placeholder="max" value="{{profile.maxsqft}}" onchange="megafunc('5',this.value)">
+                          </div>
+                          <label for="staticMin" class="row col-form-label pr-2">Lot Size</label>
+                          <div class="col-sm-2">
+                            <input type="number"  class="form-control col-sm-10 m-0" id="staticMin" placeholder="min" value="{{profile.minlot}}" onchange="megafunc('6',this.value)">
+                            
+                          </div>
+                          <label for="staticMin" class="row col-form-label pr-2">to</label>
+                          <div class="col-sm-2">
+                            <input type="number"  class="form-control col-sm-10" id="staticMin" placeholder="max" value="{{profile.maxlot}}" onchange="megafunc('7',this.value)">
+                          </div>
+                          </div>
+                            <div class="form-group row" style="width:700px;">
+                              <label for="customRange1" class="col-form-label mr-5 ml-5 pl-3">Beds</label>
+                              <div class="col-sm-7 p-0 pl-5 ml-2">
+                                <span id="text_slider_ghost_1"></span>
+                                    <input type="range" multiple value="{{profile.beds}}" style="width: 200px;" min="0" max="10" id="slider_1" title="Hey" onchange="shownum('1')"/>
+                                    <input type="number"  class="form-control" style="width: 15%;" id="aa1" value="{{profile.beds}}" onchange="megafunc('9',this.value)">
+                                    <span id="text_slider_origin_1"></span>
+                              </div>
+                            </div>
+                            <div class="form-group row" style="width:700px;">
+                              <label for="customRange1" class="col-form-label mr-5 ml-5 pl-3">Baths</label>
+                              <div class="col-sm-7 p-0 pl-5 ml-1">
+                               
+                               <span id="text_slider_ghost_2"></span>
+                                <input type="range" name="foo" multiple value="{{profile.bath}}" style="width: 200px; margin-right:48px;" min="0" max="10" id="slider_2" onchange="shownum('2')" />
+                                <input type="number"  class="form-control" style="width: 15%;" id="aa2" value="{{profile.bath}}" onchange="megafunc('10',this.value)">
+                               <span id="text_slider_origin_2"></span>
+                              </div>
+                            </div>
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="card border-0">
+                  <div class="card-header bg-transparent" id="headingThree">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Lifestyle Requirements &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseThreeCaret"></i>  
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="float-right" style="z-index:999; margin-top:-30px;">
+                      <a href="#" onclick="document.getElementById('third_profile_form').submit()"  class="alert-link">Save</a>   &nbsp;
+                      <a href="" class="alert-link">Cancel</a>
+                    
+              </div>
+                    <div class="card-body">
+                      <form id="third_profile_form">
+                        {% csrf_token %}
+                        <div class="col-sm-9">
+                          <div class="btn-group-toggle mx-auto ml-5" data-toggle="buttons" style="width:400px; margin-left:200px;">
+                            <label onclick="megafunc('8','Single Family')" class="btn btn-outline-dark">
+                              <input type="checkbox" > Schools
+                            </label>
+
+                            <label onclick="megafunc('8','Town Hpme')" class="btn btn-outline-dark">
+                              <input type="checkbox" > Commute
+                            </label>
+
+                            <label onclick="megafunc('8','Condominium')" class="btn btn-outline-dark">
+                              <input type="checkbox" > Vastu
+                            </label>
+
+                            <label onclick="megafunc('8','Multi Family')" class="btn btn-outline-dark active ">
+                              <input type="checkbox" checked  > Shopping
+                            </label>
+
+                          </div>
+
+                     
+                        </div> 
+                        <br>
+                      <textarea name="any_other" form="basicinfo" class="form-control" cols="40" rows="7" style="resize: none; overflow: hidden;">
+                        {{profile.any_other}} 
+                      </textarea>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+<script>
+function shownum(a){
+  if (a == '1'){
+    document.getElementById('aa'+a).value = document.getElementById('slider_1').value;
+  }
+  if (a == '2'){
+    document.getElementById('aa'+a).value = document.getElementById('slider_2').value;
+  }
+}
+function megafunc(a,b){
+  var c = new XMLHttpRequest();
+  c.open("GET",'get-all-data/'+a+'/'+b);
+  c.send();
+}
+</script>
+
+      <script src="multirange.js"></script>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+        <script>
+        $('#collapseOne').on('show.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(0deg)");
+            $("#change_password_id").css("display", "none");
+
+});
+$('#collapseOne').on('hide.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(90deg)");
+            $("#change_password_id").css("display", "block");
+
+});
+
+
+$('#collapseTwo').on('show.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(0deg)");
+
+});
+$('#collapseTwo').on('hide.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(90deg)");
+
+});
+
+
+$('#collapseThree').on('show.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(0deg)");
+
+});
+$('#collapseThree').on('hide.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(90deg)");
+
+});
+
+  $(document).ready(function()
+  {
+    $("#collapseThreeCaret").css("transform", "rotate(90deg)");
+    $("#collapseTwoCaret").css("transform", "rotate(90deg)");
+    $("#change_password_id").css("display", "none");
+  });
+
+// function updateTextInput(val) {
+//           document.getElementById('textInput').value=val; 
+//         }
+        </script>
+<!-- 
+<script>
+$(document).on("change", ".ghost", function()
+{
+    // console.log($(this).attr("id"));
+    // console.log($("#" + $(this).attr("id")).val());
+        // $("#"+ $(this).attr("id")).val()
+        // console.log(($(this).attr("class")));
+        // if($(this).attr("class").split(" ")[1] == "origin"){
+          // var i = $(this).attr("id").split("_")[1];
+// $("#text_slider_" + $(this).attr("class").split(" ")[1] + "_" + $(this).attr("id").split("_")[1]).html(  $("#slider_" + $(this).attr("id").split("_")[1]).val());
+        // }
+});
+$(document).on("change", ".original", function()
+{
+//     // console.log($(this).attr("id"));
+//     // console.log($("#" + $(this).attr("id")).val());
+//     // console.log(($(this).attr("class")));
+// $("#text_slider_" + $(this).attr("class").split(" ")[1] + "_" + $(this).attr("id").split("_")[1]).html(  $("#slider_" + $(this).attr("id").split("_")[1]).val());
+});
+
+// $("#slider_1").tooltip();
+// 
+</script> -->
+
+
+
+</body>
+
+</html>

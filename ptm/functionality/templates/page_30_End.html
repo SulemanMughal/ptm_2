@@ -1,0 +1,371 @@
+{% load static %}
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+    <title>UpClinch</title>
+
+    <link rel="stylesheet" href='{% static "functionality/css/page_30_end_styling.css" %}'>
+    
+    
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <input type="hidden" id="move1" value="{{obj.id}}"><input type="hidden" id="move2" value="{{obj.relproperties.all.0.id}}">
+    <div class="modal fade" id="agentsel" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20">
+                    <u style="color: red;"><h4 style="color: red;" id="listnameinmodal">
+                    </h4></u>
+                    <p>
+                        has been added to 
+                    </p>
+                    <u style="color: red;"><h4 style="color: red;" id="listnameinmodal1">
+                    </h4></u>
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="del1" value="{{obj.relproperties.all.0.id}}">
+    <div class="modal fade" id="del" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20">
+                    <p>Are you sure you want to remove </p>
+                    <u style="color: red;"><h4 style="color: red;" id="listnameinmodaldel">
+                    </h4></u>
+                    <p>
+                        from
+                    </p>
+                    <u style="color: red;"><h4 style="color: red;" id="listnameinmodaldel1">{{obj.name}}
+                    </h4></u>
+                    <button class="btn btn-secondary btn-danger" style="border-radius: 0%;padding: 3%;" onclick="delfunc()">Remove</button><br>
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="agentshare" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20" id="agentsharebody">
+                    <u style="color: red;">
+                        <h4 style="color: red;" id="listnameinmodaldel">
+                            {{obj.name}}
+                        </h4>
+                    </u>
+                    <p>
+                        is ready to be shared with yout UpClinch Agent
+                        <select id="agentsharesel">
+                            <option>-Select your Agent-</option>
+                            {% for k in agents %}
+                            <option>{{k.user.username}}</option>
+                            <input type="hidden" id="{{k.user.username}}" value="{{k.id}}">
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <button class="btn btn-secondary btn-danger" style="border-radius: 0%;padding: 3%;" onclick="sharefunc()">Share</button><br>
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="completerev" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20">
+                    <p>
+                        You have successfully completed the review of
+                    </p>
+                    <u style="color: red;">
+                        <h4 style="color: red;">
+                            {{obj.name}}
+                        </h4>
+                    </u>
+                    <p>
+                        Your UpClinch agent has been notified. Thanks!
+                    </p>
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dellist" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20">
+                    <p>
+                        Are you sure you want to delete
+                    </p>
+                    <u style="color: red;">
+                        <h4 style="color: red;">
+                            {{obj.name}}
+                        </h4>
+                    </u>
+                    <p>
+                        from your Interest Lists?
+                    </p>
+                    <h6>
+                        This action will delete the selected Interest List and all properties within it. If the Interest List was previously shared with your Agent, they will continue to have access to it from their dashboard after you delete it.
+                    </h6><br>
+                    <button class="btn btn-secondary btn-danger" style="border-radius: 0%;padding: 3%;" onclick="window.location.href='/delete-list/{{obj.id}}'">Delete</button>
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto" style="width: 80%;">
+        <h1 class="card-title text-center" id="property_title">{{obj.name}}</h1>
+        <div class="float-right mr-4" id="proper_actions">
+            <h5 class="card-title mr-5">More Actions</h5>
+            <div class="spinner-grow text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger ml-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger ml-2" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </div><br>
+        <br>
+        <div class="container float-right" id="proper_actions_list" style="display: none;">
+        <ul class="list-group float-right" id="proper_lists">
+            <li class="list-group-item list-group-item-action" id="AddProperties_0001" >Add Properties</li>
+            <li class="list-group-item list-group-item-action" id="ShareWithAgent_0001" data-toggle="modal" data-target="#agentshare">Share With Agent</li>
+            <li class="list-group-item list-group-item-action" id="CompleteReview_0001" data-toggle="modal" data-target="#completerev">Complete Review</li>
+            <li class="list-group-item list-group-item-action" id="RequestTour_0001" onclick="window.location.href='/request-tour/{{obj.id}}/0/0'">Request Tour</li>
+            <li class="list-group-item list-group-item-action" id="DeleteInterstList_0001" data-toggle="modal" data-target="#dellist">Delete Interest List</li>
+        </ul>
+        </div>
+        <br>
+        {% for i,j in notes %}
+        <div class="overflow-auto float-right" style="height:250px;">
+            <div class="card border-0 float-right" style="width: auto;" >
+  
+                <div class="card-body list-group-item-action" id="lst_{{i.id}}">
+                    <div class="media position-relative">
+                        <div class="container" style="width:318px;" id="imageContainer_{{i.id}}">
+
+                            <img src="/media/{{i.image1}}" class="mr-3" alt="...">
+                            <button type="button" class="btn btn-dark" id="buttonImageA_{{i.id}}" onclick="window.location.href='/request-tour/0/{{i.id}}/0'">Tour</button>
+                            <br>
+                            {% if agentcheck == False %}
+                            <button type="button" class="btn btn-dark btn-2" id="buttonImageB_{{i.id}}"  >Offer</button>
+                            {% endif %}
+                        </div>
+
+
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="mt-0" id="listHeading_{{i.id}}">
+                                                    {{i.address}}
+                                                    <p class="card-text font-weight-normal">
+                                                        {{i.address}}
+                                                        
+                                                    </p>
+                                                    
+                                                </h5>
+                                                Status : <b>Active</b>
+                                            </div><br>
+                                            <div class="col-6">
+                                                <h5 class="card-title text-right">${{i.price}} <p
+                                                        class="card-text text-right font-weight-normal"
+                                                        style="font-size: 14px;">{{i.sqft}} sqft| {{i.beds}} beds | {{i.baths}} baths</p>
+                                                </h5>
+
+                                            </div>
+                                        </div>
+                                        <p class="font-weight-bold m-0">
+                                            Notes:
+                                        </p>
+                                        <form id="propertyNotesForm_{{i.id}}" method="POST">{% csrf_token %}
+                                            <input type="hidden" value="{{i.id}}" name="id">
+                                            <textarea class="form-control m-0 overflow-auto bg-transparent border-0"
+                                                id="propertyNotes_{{i.id}}" style="height:80px;" readonly
+                                                style="resize: none;" name="propertynote">{{j}}
+                                        </textarea>
+                                        </form>
+
+                                    </div>
+                                </div>
+                                
+                                <div class="col-3">
+                                    {% for m,n in ratings %}
+                                    {% if m == i %}
+                                    <div class="row">
+                                        <button type="button" class="btn btn-secondary border-0 bg-transparent ml-3" onclick="funcrate({{i.id}},0)">
+                                            <i  class="fas fa-smile fa-2x"
+                                                style="color: {% if n == 0 %}red{% else %}white{% endif %};background-color: black; border-radius: 1.25rem;"
+                                                id="{{i.id}}happy"></i></button>
+                                        &nbsp; &nbsp; 
+                                        <button type="button" class="btn btn-secondary border-0 bg-transparent" onclick="funcrate({{i.id}},1)">
+                                            <i  class="fas fa-frown fa-2x"
+                                                style="color: {% if n == 1 %}red{% else %}white{% endif %};background-color: black; border-radius: 1.25rem;"
+                                                id="{{i.id}}happy1"></i></button>
+                                        &nbsp; &nbsp;
+                                        <button type="button" class="btn btn-secondary border-0 bg-transparent" onclick="funcrate({{i.id}},2)">
+                                            <i  class="fas fa-meh fa-2x"
+                                                style="color: {% if n == 2 %}red{% else %}white{% endif %};background-color: black; border-radius: 1.25rem;"
+                                                id="{{i.id}}happy2"></i></button>
+                                        <br>
+                                        <p class="text-capitalize">Property Review Status</p>
+                                        <p class="text-capitalize">Tour on 11/29/2019</p>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <br>
+                                      <!-- Modal -->
+                                      
+                                    <div class="row">
+                                        <button type="button" class="btn btn-white border-0 ml-3"
+                                            id="propertyNotesEdit_{{i.id}}"><i class="fas fa-edit fa-2x"
+                                                style="border-radius: 1.25rem;"></i></button>
+                                        <button type="submit" class="btn btn-white border-0 ml-3" style="display:none;"
+                                            id="propertyNotesEditSubmit_{{i.id}}"><i class="fas fa-check-circle fa-2x"
+                                                style="border-radius: 1.25rem;"></i></button>
+
+                                        &nbsp; &nbsp;
+                                        <button type="button" class="btn btn-white border-0 dropdown-toggle"
+                                            id="dropdownMenuButton_{{i.id}}" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+
+                                            <i class="fas fa-upload fa-2x" style="border-radius: 1.25rem;"></i></button>
+                                        &nbsp; &nbsp;
+                                        <form id="propertyListDropDownForm_{{i.id}}" method="POST">
+                                        <div class="dropdown-menu overflow-auto p-0" aria-labelledby="dropdownMenuButton_0001" style="height:100px;" id="dropdownMenu_{{i.id}}">
+                                            {% for j in lists %}
+                                            <li class="list-group-item list-group-item-action" name="drop"  id="dropDownList_0001_{{j.id}}" data-toggle="modal" data-target="#agentsel" onclick="document.getElementById('move1').value='{{j.id}}';document.getElementById('move2').value='{{i.id}}';newfunc1()">{{j.name}}</li>
+                                            {% endfor %}
+                                        </div>
+                                    </form>
+                                <button type="button" data-toggle="modal" data-target="#del" class="btn btn-white border-0" id="exampleModalCenterRemoveButton_0001_{{i.id}}" onclick="document.getElementById('del1').value='{{i.id}}'">
+                                            <i class="fas fa-times-circle fa-2x" style="border-radius: 1.25rem;"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <script>
+            function movetoanother(a,b,c){
+                setTimeout(function(){
+                    window.location.href = '/addfromlist/'+a+'/'+b+'/'+c;
+                },2500);
+            }
+        </script>
+        {% endfor %}
+        <div class="float-right p-0 m-0 mt-3">
+            <div class="container p-0">
+                <h5 class="card-title float-right" id="lstNotes_0001" style="color: red;">Interest List Notes</h5><br>
+                <form method="POST" action="{% url 'listnotechange' obj.id %}">{% csrf_token %}
+                    <textarea class="form-control p-0 bg-transparent" id="lstNotesText_0001" rows="5" cols="100"
+                        readonly style="resize: none;" name="listnote">{{obj.note}}
+                </textarea>
+                    <button type="submit" class="btn-white border-0 m-0 float-right bg-transparent mr-2"
+                        style="display: none;" id="lsteditButtonSubmit_0001" value="submit">
+                        <i class="fas fa-check-circle fa-2x" style="color:red;border-radius: 1.25rem;"></i></button>
+                </form>
+                <button type="button" class="btn-white border-0 m-0 float-right bg-transparent" style="display: block;"
+                    id="lsteditButtonEdit_0001"><i class="fas fa-edit fa-2x"
+                        style="color:red;border-radius: 1.25rem;"></i></button>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+function deletelist(){
+window.location.href = '/delete-list/'+{{obj.id}};
+}
+
+
+    </script>
+    
+    <script src='{% static "functionality/js/page_30_end.js" %}'></script>
+
+
+</body>
+
+</html>

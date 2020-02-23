@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+
+
+
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+        .text-red {
+            color: red;
+
+        }
+
+        .font-size-30 {
+            font-size: 30px;
+        }
+
+        .font-size-20 {
+            font-size: 20px;
+        }
+
+        .font-size-16 {
+            font-size: 16px;
+        }
+
+        #notesTour {
+            resize: none;
+        }
+
+        .form-control:focus,
+        .form-control:active,
+        .form-control-plaintext:focus,
+        .form-control-plaintext:active {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: black;
+        }
+
+
+        .is-valid:focus,
+        .is-valid:active,
+        .form-control.is-valid:focus,
+        .form-control.is-valid:active {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: black;
+        }
+
+
+        .form-control.is-valid {
+            border-color: black;
+            background-image: url('tick.png');
+        }
+
+        #tourNameInput {
+            display: none;
+        }
+
+        .close>span:hover {
+            color: red;
+        }
+
+        #datepicker_0001,
+        #datepicker_0002,
+        #datepicker_0003 {
+            display: none;
+            padding: 0px;
+            line-height: 0px;
+            height: calc(.75em + .75rem + 2px);
+
+        }
+
+        .input-group-append {
+            display: none;
+        }
+
+
+        div[role="navigator"] {
+            background-color: red;
+            color: white;
+        }
+
+        .gj-icon.chevron-left {
+            color: white;
+            border-radius: 5px;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+        }
+
+        #exampleFormControlSelect1 {
+            width: 80px;
+        }
+    </style>
+
+    <title>UpClinch</title>
+
+
+
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenterError" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center text-wrap text-dark font-size-20">
+                    Please click atleast one date and time to request a tour
+                </div>
+                <div class="modal-footer border-0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenterSuccess" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center text-wrap">
+                    <h5 class="modal-title text-danger">Your tour request has been sent!</h5>
+                    <p class="text-dark text-center text-wrap font-size-16">You will receive a confirmation as soon as your UpClinch Agent lines all showings for you.</p>
+            </div>
+            <div class="modal-footer border-0">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="mx-auto mt-5" style="width: 1100px;">
+        <div class="card border-0">
+            <h3 class="card-title mx-auto font-weight-bold text-red font-size-30" id="pageTitle">Request a Tour</h3>
+            <div class="card-body">
+                <div class="float-left font-weight-bold"><span class="text-dark font-size-20">Status: In Creation</span>
+                </div><br>
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <form method="POST" id="requestform" action="{% url 'submit-request' reqobj.id %}">{% csrf_token %}
+                                <div class="form-group row float-left mb-0" style="width:400px;">
+                                    <label for="inputTour" class="col-sm-5 col-form-label font-weight-bold">Tour
+                                        Name</label>
+                                    <div class="col-sm-5 mt-2">
+                                        <input type="text" class="form-control" placeholder="Tour 1" value="Tour Name"
+                                            id="tourNameInput" name="tourname">
+                                        <span class="font-weight-bold" id="tourNameDisplay">Tour Name <i
+                                                class="fas fa-edit text-secondary" id="editTitleTour"></i></span>
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                            <br>
+                            <br>
+                            <p class="card-text text-dark">
+                                Preferred Date(s) and Time(s)
+                            </p>
+                            <div class="row" style="width:600px;">
+                                <div class="col-sm-3 m-0 p-0 pr-2">
+                                    <div class="card m-0 p-0">
+                                        <div class="card-body text-center">
+                                                <input id="datepicker_0001" form="requestform" name="date1"
+                                                    autocomplete="off"/>
+                                            <span class="card-text text-center font-size-16">Fri, Nov 19 <i
+                                                    class="fas fa-calendar-alt fa-1x" id="date_0001"></i><br>2019</span>
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time1"
+                                                            id="exampleFormControlSelect1_1"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time2"
+                                                            id="exampleFormControlSelect1_2"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time3"
+                                                            id="exampleFormControlSelect1_3"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 m-0 p-0 pr-2">
+                                    <div class="card m-0 p-0">
+                                        <div class="card-body text-center pr-0">
+                                                <input id="datepicker_0002" class="mr-2" form="requestform" name="date2"
+                                                    autocomplete="off" />
+                                            <span class="card-text text-center font-size-16">Fri, Nov 19 <i
+                                                    class="fas fa-calendar-alt fa-1x" id="date_0002"></i><br>2019</span>
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time4"
+                                                            id="exampleFormControlSelect2_1"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time5"
+                                                            id="exampleFormControlSelect2_2"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time6"
+                                                            id="exampleFormControlSelect2_3"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 m-0 p-0 pr-2">
+                                    <div class="card m-0 p-0">
+                                        <div class="card-body text-center">
+                                                <input id="datepicker_0003" form="requestform" name="date3"
+                                                    autocomplete="off" />
+                                            <span class="card-text text-center font-size-16"> Fri, Nov 19 <i
+                                                    class="fas fa-calendar-alt fa-1x" id="date_0003"></i><br>2019</span>
+
+                                            <br>
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time7"
+                                                            id="exampleFormControlSelect3_1"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time8"
+                                                            id="exampleFormControlSelect3_2"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row p-0 m-0">
+                                                <div class="col-sm-4 p-0 m-0 mt-2">
+                                                    <i class="far fa-clock"></i>
+                                                </div>
+                                                <div class="col p-0 m-0">
+
+                                                        <select class="form-control p-0 m-0 border-0" name="time9"
+                                                            id="exampleFormControlSelect3_3"
+                                                            form="requestform">
+                                                            <option>12:00 AM</option>
+                                                            <option>12:30 AM</option>
+                                                            <option>01:00 AM</option>
+                                                            <option>01:30 AM</option>
+                                                            <option>02:00 AM</option>
+                                                            <option>02:30 AM</option>
+                                                            <option>03:00 AM</option>
+                                                            <option>03:30 AM</option>
+                                                            <option>04:00 AM</option>
+                                                            <option>04:30 AM</option>
+                                                            <option>05:00 AM</option>
+                                                            <option>05:30 AM</option>
+                                                            <option>06:00 AM</option>
+                                                            <option>06:30 AM</option>
+                                                            <option>07:00 AM</option>
+                                                            <option>07:30 AM</option>
+                                                            <option>08:00 AM</option>
+                                                            <option>08:30 AM</option>
+                                                            <option>09:00 AM</option>
+                                                            <option>09:30 AM</option>
+                                                            <option>10:00 AM</option>
+                                                            <option>10:30 AM</option>
+                                                            <option>11:00 AM</option>
+                                                            <option>11:30 AM</option>
+                                                            <option>12:00 PM</option>
+                                                            <option>12:30 PM</option>
+                                                            <option>01:00 PM</option>
+                                                            <option>01:30 PM</option>
+                                                            <option>02:00 PM</option>
+                                                            <option>02:30 PM</option>
+                                                            <option>03:00 PM</option>
+                                                            <option>03:30 PM</option>
+                                                            <option>04:00 PM</option>
+                                                            <option>04:30 PM</option>
+                                                            <option>05:00 PM</option>
+                                                            <option>05:30 PM</option>
+                                                            <option>06:00 PM</option>
+                                                            <option>06:30 PM</option>
+                                                            <option>07:00 PM</option>
+                                                            <option>07:30 PM</option>
+                                                            <option>08:00 PM</option>
+                                                            <option>08:30 PM</option>
+                                                            <option>09:00 PM</option>
+                                                            <option>09:30 PM</option>
+                                                            <option>10:00 PM</option>
+                                                            <option>10:30 PM</option>
+                                                            <option>11:00 PM</option>
+                                                            <option>11:30 PM</option>
+                                                        </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group row">
+
+                                    <label for="inputNotes" class="col-sm-2 col-form-label">Notes</label>
+                                    <div class="col-sm-6">
+                                        <textarea cols="47" rows="3" id="notesTour" name="note" form="requestform"></textarea>
+                                        <button class="btn btn-danger float-right" type="submit" form="requestform">Send Request</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="col float-right col-lg-4">
+                            <p class="text text-right text-red font-weight-bold">
+                                Add More Properties to Tour<button type="button" name="add" id="add"
+                                    class="btn btn-danger mb-2 border-0 ml-2"><i
+                                        class="fas fa-plus-circle fa-2x"></i></button>
+                            </p>
+                            <ul class="list-group float-right m-0 p-0 overflow-auto"
+                                style="width: 550px; height: 370px;">
+                                {% for i in reqobj.relproperty.all %}
+                                <div class="media position-relative p-1 pt-2 pb-2" style="background-color:#CFCDCD;"
+                                    id="list_{{i.id}}">
+                                    <img src="/media/{{i.image1}}" class="mr-3" alt="...">
+                                    <div class="media-body">
+                                        <button type="button" class="close" id="close_{{i.id}}" onclick="window.location.href = '/remove-from-tour/{{i.id}}/{{reqobj.id}}'">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h5 class="mt-0 text-wrap">{{i.address}}<br><span
+                                                class="font-size-16 font-weight-normal">{{i.address}}<br><span
+                                                    class="font-size-16 font-weight-normal">Status: </span><span
+                                                    class="font-size-16 font-weight-bold">Active</span> </h5>
+
+                                        <br>
+                                        <h5 class="mt-0 text-wrap">${{i.price}}<br><span
+                                                class="font-size-16 font-weight-bold">{{i.sqft}} sqft | {{i.beds}} beds | {{i.baths}} baths
+                                        </h5>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- JavaScript Section -->
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // Event Handler to close a list...
+            $(document).on("click", ".close", function () {
+                var i = $(this).attr("id").split("_");
+                // console.log(i);
+                if (i[0] == "close") {
+                    $("#list_" + i[1] + "").css("display", "none");
+                }
+            });
+
+            // Event Handler To Enter Tour Name
+            $(document).on("click", ".form-control", function () {
+                var i = $(this).attr("id");
+                // console.log(i);
+                if (i == "tourNameInput") {
+                    // console.log($(this).attr("class"));
+                    $(this).addClass(" is-valid");
+                }
+            });
+
+            // Event Handler To click on edit button for Tour Name...
+            $(document).on("click", ".fa-edit", function () {
+                var i = $(this).attr("id");
+                // console.log(i);
+                if (i == "editTitleTour") {
+                    $("#tourNameDisplay").css("display", "none");
+                    $("#editTitleTour").css("display", "none");
+                    $("#tourNameInput").css("display", "block");
+                }
+            });
+
+            // Event handler for date pick in coulmn no 1
+            $(document).on("click", ".fa-calendar-alt", function () {
+                var i = $(this).attr("id");
+                if (i == "date_0001") {
+                    $("#datepicker_0001").css("display", "block");
+                    $("#datepicker_0001_form").css("display", "block");
+                }
+                else if (i == "date_0002") {
+                    $("#datepicker_0002").css("display", "block");
+                    $("#datepicker_0002_form").css("display", "block");
+                }
+                else if (i == "date_0003") {
+                    $("#datepicker_0003").css("display", "block");
+                    $("#datepicker_0003_form").css("display", "block");
+                }
+            });
+
+
+            $('#datepicker_0001').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+
+            $('#datepicker_0002').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+
+            $('#datepicker_0003').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+
+            
+            // $(document).load($('#exampleModalCenterError').modal('show'));
+            //$(document).load($('#exampleModalCenterSuccess').modal('show'));
+
+
+        });
+    </script>
+
+
+</body>
+
+</html>

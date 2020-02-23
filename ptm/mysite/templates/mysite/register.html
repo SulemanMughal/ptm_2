@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block title %}Registration{% endblock %}
+
+
+
+{% block content %}
+
+
+<style>
+        input::-webkit-inner-spin-button,
+        input::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+        }
+
+        input[type="number"] {
+                -moz-appearance: textfield;
+        }
+
+        .font-size-25 {
+                font-size: 25px;
+        }       
+
+        #signinlink:link {
+                text-decoration: underline;
+        }
+
+        /* visited link */
+        #signinlink:visited {
+                text-decoration: underline;
+        }
+
+        /* mouse over link */
+        #signinlink:hover {
+                text-decoration: underline;
+        }
+
+        /* selected link */
+        #signinlink:active {
+                text-decoration: underline;
+        }
+
+        .alert{
+                width:350px;
+        }
+
+        .ml-20{
+                margin-left:235px;
+        }       
+
+        .font-size-16{
+                font-size:16px;
+        }
+
+        .font-size-18{
+                font-size:18px;
+        }
+
+        .font-size-20{
+                font-size:20px;
+        }
+
+</style>
+
+
+<div class="mx-auto mt-5" style="width: 550px;">
+
+        {% if messages %}
+
+        <div class="modal" tabindex="-1" role="dialog" id="succesfulsignupmodal">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header border-0">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body mx-auto text-center font-weight-normal font-size-20">
+                      <p>Thank you for singing up with UpClinch!</p>
+                      <p><a href="." class="card-link text-danger text-decoration-none font-weight-bold" id="signinlink">Complete my profile now</a></p>
+                      <p><a href="." class="card-link text-danger text-decoration-none font-weight-bold" id="signinlink">Go to property search</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <script>
+                        $('#succesfulsignupmodal').modal('show')
+
+              </script>
+
+        {% endif %}
+
+        <div class="card border-0" style="width: 35rem;">
+
+
+
+
+
+                <div class="card-body">
+                        <h5 class="card-title text-center text-danger font-weight-bold font-size-25">Sign Up with
+                                UpClinch</h5>
+                        <p class="card-text text-center">Have an account already? <a href="{% url 'login' %}"
+                                        class="card-link text-danger text-decoration font-weight-bold" id="signinlink">Sign In</a></p>
+
+                        {% if form.errors %}
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger alert-dismissible mx-auto">
+                                <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {% if form_2.errors %}
+                        {% for field in form_2 %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger alert-dismissible mx-auto">
+                                <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endif %}
+
+                        <form action="{% url 'register' %}" method="POST" class="mt-5">
+                                {% csrf_token %}
+                                
+                
+                                
+                                <div class="form-group row">
+                                        <label for="id_username" class="col-sm-3 col-form-label pr-0 text-right">Name  <span class="text-danger font-weight-bold">*</span></label>
+                                        <div class="col-sm-7">
+                                        <input type="text" name="username" required maxlength="30" id="id_username" autocomplete="off"
+                                                class="form-control">
+                                        </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                        <label for="id_email" class="col-sm-3 col-form-label pr-0 text-right">Email <span class="text-danger font-weight-bold">*</span></label>
+                                        <div class="col-sm-7">
+                                        <input type="email" name="email" required id="id_email" class="form-control" autocomplete="off">
+                                        </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                <label for="id_username">Username</label>
+                                <input type="text" name="username" maxlength="150" required id="id_username"
+                                        class="form-control" placeholder="Enter User">
+                                <small id="usernameHelpInline" class="text-muted">
+                                        Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+                                </small>
+                        </div> -->
+
+
+                                <div class="form-group row">
+                                        <label for="id_password" class="col-sm-3 col-form-label pr-0 text-right">Password <span class="text-danger font-weight-bold">*</span></label>
+                                        <div class="col-sm-7 mr-0">
+                                        <input type="password" name="password" required id="id_password"
+                                                class="form-control">
+                                                
+                                        </div>
+                                        <div class="col-sm-1 ml-0 pl-0 ml-0 mt-2">
+                                                <i class="fas fa-question-circle bg-transparent ml-0 p-0"
+                                                style="color: black; background-color: transparent; border: none; font-size: 20px;" data-toggle="popover"
+                                                data-placement="right"></i>
+                                        </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                        <label for="id_password2" class="col-sm-3 col-form-label pl-0 pr-0 text-nowrap">Confirm Password <span class="text-danger font-weight-bold">*</span></label>
+                                        <div class="col-sm-7">
+                                        <input type="password" name="password2" required id="id_password2" class="form-control">
+                                </div>
+                                        
+                                </div>
+
+                                <div class="form-group row">
+                                        <label for="phone" class="col-sm-3 col-form-label pl-5 pr-2 text-right">Phone</label>
+                                        <div class="col-sm-7">
+                                        <input type="text" name="phone" id="id_phone" class="form-control" maxlength="11" autocomplete="off">
+                                </div>
+
+                                
+                                        
+                                </div>
+                                
+                                <div class="form-group row">
+                                        <label for="occupation" class="col-sm-3 col-form-label pl-5 pr-2 text-right">Occupation</label>
+                                        <div class="col-sm-7">
+                                        <input type="text" name="occupation" id="id_occupation" class="form-control" maxlength="200" autocomplete="off">
+                                        
+                                        
+                                </div>
+                                </div>
+
+                                <!-- <div class="form-group">
+                                        <label for="exampleFormControlSelect2">Buyer or Agent</label>
+                                        <select  class="form-control" id="exampleFormControlSelect2" name="Teacher_or_Parent">
+                                          <option value="Buyer" selected>Buyer</option>
+                                          <option value="Agent">Agent</option>
+                                        </select>
+                                      </div> -->
+
+                                      <div class="form-group mx-auto text-center">
+                                        <button type="submit" class="btn btn-danger text-center bg-danger font-weight-bold ml-5" value="Sign-Up">Sign Up</button>
+                                      </div>
+
+                                <div class="form-group row mx-auto text-center">
+                                        <p class="card-text text-center mx-auto">By Signing up you agree to our <a href="#"
+                                                class="card-link text-danger text-decoration font-weight-bold" id="signinlink">Terms of Service</a> and <a href="#" class="card-link text-danger text-decoration font-weight-bold ml-0" id="signinlink">Privacy Police</a> </p>
+                                
+                                                
+                                        </div>
+
+                                
+
+                        </form>
+
+                </div>
+        </div>
+
+</div>
+
+
+
+{% endblock %}

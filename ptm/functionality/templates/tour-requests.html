@@ -1,0 +1,31 @@
+{% include 'base.html' %}
+{% block content %}
+    {% for i in objs %}
+    {% if i.status != 'In Creation' %}
+    <div class="card">
+        <div class="card-header" onclick="window.location.href='/show-tour/{{i.id}}'" style="cursor: pointer;">
+            <h5>{{i.name}}</h5>
+        </div>
+        <div class="card-body">
+            <p>{{i.user.username}} has requested a tour of these properties<br>
+                {% for j in i.relproperty.all %}
+                <a href="{% url 'property-detail' j.id %}">{{j.address}}</a><br>
+                {% endfor %}
+            </p>
+        </div>
+        {% if agentcheck %}
+        <div class="card-footer">
+            <button class="primary-btn btn" onclick="window.location.href = 'approve-tour/{{i.id}}'">
+                {% if i.status == 'Requested' %}
+                Approve
+                {% else %}
+                <i style="color: green;">Scheduled</i>
+                {% endif %}
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    <br>
+    {% endif %}
+    {% endfor %}
+{% endblock %}

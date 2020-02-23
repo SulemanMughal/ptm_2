@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+
+        .btn:focus,
+        .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .form-control {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .form-control:focus,
+        .form-control:active {
+            outline: none !important;
+            box-shadow: none !important;
+
+        }
+
+        .list-group-item:hover {
+            color: red;
+        }
+
+        .list-group-item {
+            padding: 0px;
+            margin: 0px;
+            padding-left: 2px;
+        }
+
+        .modal-header,
+        .modal-footer {
+            border: 0px;
+        }
+
+        .card-title,
+        .text-right {
+            color: red;
+        }
+
+        .card-body {
+            height: 100px;
+        }
+
+        #outer {
+            width: 600px;
+        }
+
+        .card {
+            width: 35rem;
+            height: 100px;
+        }
+
+        #dynamic_field {
+            height: 200px;
+        }
+
+        .btn-white {
+            float: right;
+        }
+
+        .btn-light {
+            float: right;
+            padding-right: 0px;
+        }
+
+        .btn-dark {
+            float: right;
+            padding-right: 30px;
+        }
+
+        /* unvisited link */
+.alert-link:link {
+  color: red;
+}
+
+/* visited link */
+.alert-link:visited {
+  color: red;
+}
+
+/* mouse over link */
+.alert-link:hover {
+  color: red;
+}
+
+/* selected link */
+.alert-link:active {
+  color: red;
+}
+    </style>
+
+<style>
+    .list-group > li:hover{
+        /* color:white; */
+        background-color: white;
+
+    }
+
+    .list-group > li{
+        /* color:white; */
+        background-color: rgb(245, 243, 243);
+
+    }
+    
+    .list-group-item > li  > input{
+        background-color: white;
+    }
+
+    .list-group-item > li  > input{
+        background-color: white;
+    }
+    
+    .form-control[readonly] {
+        background-color: rgb(245, 243, 243);
+    }
+
+    .form-control[readonly]:hover{
+        background-color: white;
+    }
+
+    .form-control:hover{
+        background-color: white;
+    }
+
+    .form-control {
+        background-color: white;
+    }
+
+    
+
+    .text-red{
+        color:red;
+
+    }
+
+</style>
+
+    <title>UpClinch</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <div class="mx-auto mt-5" id="outer">
+
+        <div class="card border-0">
+            <h4 class="card-title mx-auto">Tours</h4>
+            <div class="card-body">
+                <p class="text text-right">
+                    New Tour <button type="button" name="add" id="add"
+                        class="btn btn-danger mb-2 border-0 ml-2"><i class="fas fa-plus-circle fa-2x"></i></button>
+                </p>
+                <div class="overflow-auto">
+
+
+
+                    <ul class="list-group" id="dynamic_field">
+                        {% for i in objs %}
+                        <li class="list-group-item list-group-item-action p-0 m-0 {% if not i.name %}border border-danger bg-white{% endif %}" id="row{{i.id}}" >
+                            <form method="POST" class="form-inline p-0 m-0">{% csrf_token %}
+                                <input type="hidden" value="{{i.id}}" name="id">
+                                {% if i.name %}
+                                <input type="text" style="cursor: pointer;width:60%;" value="{{i.name}}" name="listname" class="form-control p-0 m-0 border-0 pl-1" readonly id="{{i.id}}" autocomplete="off" onclick="relocate({{i.id}})">
+                                {% else %}
+                                <input type="text" style="cursor: pointer;width:60%;" placeholder="Tour name" name="listname" class="form-control p-0 m-0 border-0 pl-1" autocomplete="off" id="{{i.id}}">
+                                {% endif %}
+                                <i id="status_{{i.id}}" class="text-italic">{{i.status}}</i>
+                                <button type="button" id="editButton_{{i.id}}" class="btn btn-white border-0 bg-transparent text-dark" onclick="e({{i.id}})"
+                                style="float:right;padding-right:0px;"
+                                
+                                >
+                                    <i class="fas fa-edit fa-lg {% if not i.name %}text-danger{% endif %}" id="edit_{{i.id}}"></i>
+                                </button>
+                                <button type="button" class="btn btn-light border-0 bg-transparent text-dark"
+                                style="float:right;padding-right:0px; padding-left:12px;"
+                                >
+                                    <i class="fas fa-share-square fa-lg {% if not i.name %}text-danger{% endif %}" id="share_{{i.id}}"></i>
+                                </button>
+                                
+                                <button type="button" class="btn btn-dark border-0 bg-transparent text-dark" id="remove_{{i.id}}"
+                                style="float:right;padding-right:0px; "
+                                >
+                                    <i class="far fa-times-circle fa-lg {% if not i.name %}text-danger{% endif %}" id="circle_{{i.id}}"></i>
+                                </button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function e(a){
+            var b = document.getElementById(a).removeAttribute('readonly');
+            // var c = document.getElementById('savesubmit'+a).style = '';
+            // var input_id = $(this).attr("id");
+                // var list_id = input_id.split("_")[1];
+                $("#row" + a + "").css("border", "1px solid #dc3545");
+                $("#circle_" + a + "").css("color", "red");
+                $("#circle_" + a + "").addClass("text-danger");
+                $("#share_" + a + "").css("color", "red");
+                $("#share_" + a + "").addClass("text-danger");
+                $("#edit_" + a + "").css("color", "red");
+                $("#edit_" + a + "").addClass("text-danger");
+                $("#" + a+ "").css("background-color", "white");
+                $("#" + a + "").hover( function()
+                {
+                    $("#" + a+ "").css("background-color", "white");
+                });                
+        }
+
+        // $(document).on("mouseover", ".text-italic", function()
+        // {
+        //     $("#" + $(this).attr("id").split("_")[1] + "").css("background-color", "white");
+        // });
+
+        // $(document).on("mouseout", ".text-italic", function()
+        // {
+        //     $("#" + $(this).attr("id").split("_")[1] + "").css("background-color", "rgb(245, 243, 243)");
+        // });
+
+
+        $('#add').click(function(){
+            window.location.href = '{% url "create-tour" %}';
+        });
+        function relocate(a){
+            if (document.getElementById(a).hasAttribute('readonly') == true){
+                if (document.getElementById('status'+a).innerHTML == 'In Creation'){
+                    window.location.href = '/request-tour/0/0/'+a;
+                }
+                else{
+                    window.location.href = 'show-tour/'+a;
+                }
+            }
+        }
+        function deletelist(a){
+            window.location.href = '/delete-tour/'+a;
+        }
+        $(document).ready(function () {
+            var i = 1;
+
+            // Mouseover event for remove...
+            $(document).on('mouseover', '.fa-times-circle', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "red");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "white");
+                // $("#status_" + button_id.split("_")[1] + "").css("background-color" , "white");
+            });
+
+            // Mouseout event for remove...
+            $(document).on('mouseout', '.fa-times-circle', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "black");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "rgb(245, 243, 243)");
+                // $("#status_" + button_id.split("_")[1] + "").css("background-color" , "rgb(245, 243, 243)");
+                
+            });
+
+
+            // Mouse over for share ...
+            $(document).on('mouseover', '.fa-share-square', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "red");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "white");
+            });
+
+            // Mouseout event for share...
+            $(document).on('mouseout', '.fa-share-square', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "black");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "rgb(245, 243, 243)");
+            });
+
+
+
+
+
+            // Mouse over for edit ...
+            $(document).on('mouseover', '.fa-edit', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "red");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "white");
+            });
+
+            // Mouseout event for edit...
+            $(document).on('mouseout', '.fa-edit', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "black");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "rgb(245, 243, 243)");
+            });
+
+            $(document).on('mouseover', '.fa-save', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "red");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "white");
+            });
+
+            // Mouseout event for edit...
+            $(document).on('mouseout', '.fa-save', function () {
+                var button_id = $(this).attr("id");
+                $("#" + button_id + "").css("color", "black");
+                $("#" + button_id.split("_")[1] + "").css("background-color" , "rgb(245, 243, 243)");
+            });
+
+            // Click on Remove Button
+            $(document).on('click', '.btn-dark', function () {
+                var list_id = $(this).attr("id").split("_")[1];
+                // console.log(button_id);
+                // $('#row' + button_id + '').remove();
+                if ($("#exampleModalCenter_" + list_id + "").length) {
+                    // var A = 
+                    // var res = '<p class="card-text text-center">Are you sure you want to delete</p><a class="alert-link text-center mx-auto" href="#">' + $("#lst" + list_id + "").html() + '</a> From your Interest List?'
+                    $("#modelBody_" + list_id + "").html('<p class="card-text text-center">Are you sure you want to delete</p><a class="alert-link text-center mx-auto" href="#">' + $("#"+list_id).value + '</a> From your Interest List?' + '<p class="card-text">This action will delete the selected Interest List and all properties within it. If the Interest List was previously shared with your Agent, they will continue to have access to it from their dashboard after you delete it.</p>');
+                    $("#modelFooterButton_"+ list_id + "").html("Delete");
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").val());
+                    // console.log($("#row" + list_id + "").html());
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").html());
+                    $('#exampleModalCenter_' + list_id + '').modal('show');
+                    
+                }
+                else {
+                    
+                    $("#dynamic_field").prepend('<div class="modal fade" id="exampleModalCenter_' + list_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modelClose_' + list_id + '"><span aria-hidden="true">&times;</span></button></div><div class="modal-body" id="modelBody_' + list_id + '"></div><div class="modal-footer"><button type="button" class="btn btn-danger mx-auto" onclick="deletelist('+list_id+')" id="modelFooterButton_'+ list_id+'"></button></div></div></div></div>');
+                    // var res = 
+                    $("#modelBody_" + list_id + "").html('<p class="card-text text-center">Are you sure you want to delete</p><a class="alert-link text-center mx-auto" href="/show-tour/'+list_id+'">' + document.getElementById(list_id).value  + '</a> From your Interest List?' + '<p class="card-text">This action will delete the selected Interest List and all properties within it. If the Interest List was previously shared with your Agent, they will continue to have access to it from their dashboard after you delete it.</p>');
+                    $("#modelFooterButton_"+ list_id + "").html("Delete");
+                    // console.log($("#row" + list_id + "").html());
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").html());
+                    $('#exampleModalCenter_' + list_id + '').modal('show');
+                }
+
+            });
+
+            // on click event for input:
+
+            $(document).on('focus', ".form-control", function () {
+                var input_id = $(this).attr("id");
+                var list_id = input_id.split("_")[1];
+                $("#row" + list_id + "").css("border", "1px solid red");
+                $("#circle_" + list_id + "").css("color", "red");
+                $("#share_" + list_id + "").css("color", "red");
+                $("#edit_" + list_id + "").css("color", "red");
+            });
+
+
+            $(document).on('click', ".form-control", function () {
+                var input_id = $(this).attr("id");
+                var list_id = input_id.split("_")[1];
+                $("#row" + list_id + "").css("border", "1px solid red");
+                $("#circle_" + list_id + "").css("color", "red");
+                $("#share_" + list_id + "").css("color", "red");
+                $("#edit_" + list_id + "").css("color", "red");
+                $("#" + list_id + "").css("background-color", "white");
+            });
+            $(document).on('focusin', ".form-control", function () {
+                var input_id = $(this).attr("id");
+                var list_id = input_id.split("_")[1];
+                $("#row" + list_id + "").css("border", "1px solid red");
+                $("#circle_" + list_id + "").css("color", "red");
+                $("#share_" + list_id + "").css("color", "red");
+                $("#edit_" + list_id + "").css("color", "red");
+            });
+
+
+            $(document).on('focusout', ".form-control", function () {
+                var input_id = $(this).attr("id");
+                var list_id = input_id.split("_")[1];
+                $("#row" + list_id + "").css("border", "1px solid rgba(0,0,0,.125)");
+                $("#circle_" + list_id + "").css("color", "black");
+                $("#share_" + list_id + "").css("color", "black");
+                $("#edit_" + list_id + "").css("color", "black");
+            });
+
+            // Click on Share Button
+            $(document).on('click', '.btn-light', function () {
+                var button_id = $(this).attr("id");
+                // console.log(button_id);
+                var list_id = button_id.split("_")[1];
+                // console.log(list_id);
+                // $("#share_" + list_id + "").css("color", "black");
+                // $('#share_'+list_id+"").css("color", "red");
+                // console.log(list_id);
+                // $("#share_" + list_id + "").css("color", "red");
+                
+            // // Mouseout event for share...
+            // $(document).on('mouseout', '.fa-share-square', function () {
+            //     var button_id = $(this).attr("id");
+            //     $("#" + button_id + "").css("color", "red");
+            // });
+                if ($("#exampleModalCenter_" + list_id + "").length) {
+                    $("#modelBody_" + list_id + "").html('<a href="#" class="alert-link">' + $("#lst" + list_id + "").html() + '</a>' + '&nbsp;is ready to be shared with your UpClinch Agent');
+                    $("#modelFooterButton_"+ list_id + "").html("Share");
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").val());
+                    // console.log($("#row" + list_id + "").html());
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").html());
+                    $('#exampleModalCenter_' + list_id + '').modal('show');
+                    
+                }
+                else {
+                    $("#dynamic_field").prepend('<div class="modal fade" id="exampleModalCenter_' + list_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modelClose_' + list_id + '"><span aria-hidden="true">&times;</span></button></div><div class="modal-body" id="modelBody_' + list_id + '"></div><div class="modal-footer"><button type="button" class="btn btn-danger mx-auto" id="modelFooterButton_'+ list_id+'"></button></div></div></div></div>');
+                    // var res = 
+                    $("#modelBody_" + list_id + "").html('<a href="#" class="alert-link">&nbsp;' + $("#lst" + list_id + "").html() + '</a>' + '&nbsp;is ready to be shared with your UpClinch Agent');
+                    $("#modelFooterButton_"+ list_id + "").html("Share");
+                    // console.log($("#row" + list_id + "").html());
+                    // $("#modelBody_" + list_id + "").html($("#row" + list_id + "").html());
+                    $('#exampleModalCenter_' + list_id + '').modal('show');
+                }
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

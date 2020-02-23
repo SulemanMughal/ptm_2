@@ -1,0 +1,18 @@
+<nav class="navbar">
+<div class="float-right">
+    <a href="{% url 'home' %}" class="alert-link">Home</a>&nbsp;&nbsp;
+    <a href="{% url 'search' %}" class="alert-link">Search</a> &nbsp;&nbsp;
+          <a href="{% url 'manage-lists' %}" class="alert-link">Interest Lists</a> &nbsp;&nbsp; 
+          <a href="{% url 'tour-requests' %}"  class="alert-link">Tours</a>   &nbsp;&nbsp;
+          <a href="{% url 'offers' %}" class="alert-link">Offers</a> &nbsp;&nbsp;
+          {% if agentcheck %}
+          <a href="{% url 'listofbuyers' %}" class="alert-link">Buyers</a>&nbsp;&nbsp;
+          {% endif %}
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="alert-link">Logout</a>&nbsp;&nbsp;
+          {% else %}
+          <a href="{% url 'login' %}" class="alert-link">Login</a>&nbsp;&nbsp;
+          <a href="{% url 'register' %}" class="alert-link">Sign Up</a>
+          {% endif %}
+        </div>
+    </nav>

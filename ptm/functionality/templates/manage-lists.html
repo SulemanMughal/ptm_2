@@ -1,0 +1,8 @@
+{% include 'base.html' %}
+{% block content %}
+{% for i in lists %}
+    <p><a href="{% url 'show-list' i.id %}">{{i.name}}</a>&ensp;&ensp;
+        <a href="{% url 'delete-list' i.id %}">delete</a>
+    </p><br><hr>
+{% endfor %}
+{% endblock %}

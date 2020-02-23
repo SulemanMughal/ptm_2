@@ -1,0 +1,8 @@
+{% include 'base.html' %}
+{% block content %}
+<form method="POST">{% csrf_token %}
+    <input type="hidden" value="{{id}}" name="id">
+    <input type="text" name="note" placeholder="Add a Note">
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

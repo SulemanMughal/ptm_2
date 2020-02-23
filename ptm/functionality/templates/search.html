@@ -1,0 +1,42 @@
+{% include 'base.html' %}
+{% block content %}
+<form method="POST" id="searchform">{% csrf_token %}
+    <input type="number" name="query">
+    <input type="hidden" id="hiddeninput" name="select">
+    <button type="button" onclick="func1()">Search by price less than</button>&nbsp;
+    <button type="button" onclick="func2()">Search by price more than</button>&nbsp;
+    <button type="button" onclick="func3()">Search by sqft less than</button>&nbsp;
+    <button type="button" onclick="func4()">Search by sqft more than</button>&nbsp;
+    <button type="button" onclick="func5()">Search by number of beds</button>&nbsp;
+</form><br><hr>
+{% for i in objs %}
+    <p>
+        <a href="{% url 'property-detail' i.id %}" style="color: black;">
+            <img src="/media/{{i.image1}}">&ensp;Price : ${{i.price}}
+        </a>
+    </p><hr>
+{% endfor %}
+
+{% endblock %}
+<script>
+    function func1(){
+        a = document.getElementById('hiddeninput').value = 1;
+        b = document.getElementById('searchform').submit();
+    }
+    function func2(){
+        a = document.getElementById('hiddeninput').value = 2;
+        b = document.getElementById('searchform').submit();
+    }
+    function func3(){
+        a = document.getElementById('hiddeninput').value = 3;
+        b = document.getElementById('searchform').submit();
+    }
+    function func4(){
+        a = document.getElementById('hiddeninput').value = 4;
+        b = document.getElementById('searchform').submit();
+    }
+    function func5(){
+        a = document.getElementById('hiddeninput').value = 5;
+        b = document.getElementById('searchform').submit();
+    }
+</script>

@@ -1,0 +1,60 @@
+{% include 'base.html' %}
+{% block content %}
+<P>Price : {{obj.price}}</P>
+<P>Square Feet : {{obj.sqft}}</P>
+<P>Beds : {{obj.beds}}</P>
+<P>Baths : {{obj.bath}}</P>
+<P>Type : {{obj.family_type}}</P>
+<P>Year Built : {{obj.year_built}}</P>
+<P>Heating : {{obj.heating}}</P>
+<P>Cooling : {{obj.cooling}}</P>
+<P>Parking : {{obj.parking}}</P>
+<P>Lot : {{obj.lot}}</P>
+{% if obj.image1 %}
+<img src="/media/{{obj.image1}}">
+{% endif %}
+{% if obj.image2 %}
+<img src="/media/{{obj.image2}}">
+{% endif %}
+{% if obj.image3 %}
+<img src="/media/{{obj.image3}}">
+{% endif %}
+{% if obj.image4 %}
+<img src="/media/{{obj.image4}}">
+{% endif %}
+{% if obj.image5 %}
+<img src="/media/{{obj.image5}}">
+{% endif %}
+<p id="trunc" style="">{{obj.description | truncatechars:100}} <a onclick="showfull()">see more...</a></p>
+<p id="nontrunc" style="display: none;">{{obj.description}} <a onclick="showless()">see less</a></p><br>
+Shortlist <select id="listselection" onchange="selectiondone()" onclick="selectiondone1()">
+    {% for i in lists %}
+        <option value="{% url 'add-to-list' i.id obj.id %}">{{i.name}}</option>
+    {% endfor %}
+</select>
+<button><a style="color: black;" target="_blank" href="{% url 'create-list' %}">New list</a></button>
+&ensp; <button><a style="color: black;" target="_blank" href="{% url 'request-tour' obj.id %}">Request Tour</a></button>
+&ensp; <button>Offer</button>
+{% endblock %}
+<script>
+    function showfull(){
+        a = document.getElementById('trunc').style = 'display:none;';
+        b = document.getElementById('nontrunc').style = '';
+    }
+    function showless(){
+        a = document.getElementById('nontrunc').style = 'display:none;';
+        b = document.getElementById('trunc').style = '';
+    }
+    function selectiondone(){
+        a = document.getElementById('listselection');
+        b = a.options[a.selectedIndex].value;
+        window.location.href = b;
+    }
+    function selectiondone1(){
+        a = document.getElementById('listselection');
+        b = a.options.length;
+        if (b == 1){
+            window.location.href = a.options[a.selectedIndex].value;
+        }
+    }
+</script>

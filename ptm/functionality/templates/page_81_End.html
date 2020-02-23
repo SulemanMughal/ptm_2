@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+    <title>UpClinch</title>
+
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+        #property_title,
+        #proper_actions {
+            color: red;
+        }
+
+        .btn:focus,
+        .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn {
+            border: none;
+            padding: 0px;
+            margin: 0px;
+            /* border-radius: 1.25rem; */
+        }
+
+        .breadcrumb-item+.breadcrumb-item::before {
+            content: ">";
+        }
+
+        .card-title {
+            color: red;
+        }
+
+        /* unvisited link */
+        .alert-link:link {
+            color: red;
+        }
+
+        /* visited link */
+        .alert-link:visited {
+            color: red;
+        }
+
+        /* mouse over link */
+        .alert-link:hover {
+            color: red;
+        }
+
+        /* selected link */
+        .alert-link:active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'navbar.html' %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Offers</a></li>
+            <li class="breadcrumb-item active" aria-current="page">In Contract</li>
+        </ol>
+    </nav>
+
+    <div class="mx-auto mt-5" style="width: 80%;">
+        <div class="card mx-auto border-0" style="width: 100%;">
+
+            <div class="card-body">
+                
+
+                <h3 class="card-title text-center">Offers In Contract</h3>
+
+
+                <div id="accordion">
+                    {% for i,j in data.items %}
+                    <div class="card border-0">
+                        <div class="card-header bg-transparent" id="headingOne">
+
+
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#{{i}}"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    {{i}} &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseOneCaret"></i>
+                                </button>
+                            </h5>
+
+
+
+                        </div>
+                        
+                        <div id="{{i}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="mx-auto mt-5" style="width: 90%;">
+                                {% for k in j %}
+                                <div class="overflow-auto" style="height:300px;">
+                                    <div class="card border-0 float-right" style="width: auto;">
+                                        <div class="card-body list-group-item-action">
+                                            <div class="media position-relative">
+                                                <img src="/media/{{k.relproperty.image1}}" class="mr-3" alt="..." height="250px;">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="media-body">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <h5 class="mt-0">
+                                                                            {{k.relproperty.address}}
+                                                                            <p class="card-text font-weight-normal">
+                                                                                {{k.relproperty.address}}
+                                                                                <br>
+                                                                                Status : <b>Active</b>
+                                                                            </p>
+
+                                                                        </h5>
+                                                                        <p class="font-weight-bold m-0">
+                                                                            Notes:
+                                                                        </p>
+                                                                        <p class="card-text m-0 overflow-auto"
+                                                                            style="height:130px;">
+        
+                                                                            {{k.note}}
+        
+                                                                        </p>
+                                                                    </div><br>
+                                                                    <div class="col-6">
+                                                                        <h5 class="card-title text-right text-dark">
+                                                                            ${{k.relproperty.price}} <p
+                                                                                class="card-text text-right font-weight-normal"
+                                                                                style="font-size: 14px;">{{k.relproperty.sqft}} sqft| {{k.relproperty.beds}}
+                                                                                beds | {{k.relproperty.baths}} baths</p>
+                                                                            <p class="card-text text-right font-weight-normal-inline"
+                                                                                style="font-size: 14px; "> 
+                                                                                In Contract
+                                                                                Date: <span>11/29/2019 <i class="fas fa-calendar-alt fa-1x"></i></span>
+                                                                                
+                                                                                <form>
+                                                                                    <input size="10" data-provide="datepicker" data-date-format="yyyy-mm-dd"
+                                                                                name="date_page_1" class="form-control-inline border-0 text-small"
+                                                                                autocomplete="off" placeholder="Change Date..." onchange="this.form.submit();">
+                                                                                </form>
+                                                                                    </p>
+                                                                              
+                                                                        </h5>
+                                                                        <br>
+                                                                        <form>
+                                                                        <div class="form-group float-right" style="width:200px;">
+                                                                            <label for="exampleFormControlSelect1">Offer Status</label>
+                                                                            <br>
+                                                                            <select name="offer_status"  class="form-control" id="exampleFormControlSelect1" onchange="myfunc(this.value,{{k.id}})">
+                                                                              <option {% if k.status == 'In Contract' %}selected{% endif %}>In Contract</option>
+                                                                              <option {% if k.status == 'Requested' %}selected{% endif %}>Requested</option>
+                                                                              <option {% if k.status == 'Submitted' %}selected{% endif %}>Submitted</option>
+                                                                              <option {% if k.status == 'Fell Through' %}selected{% endif %}>Fell Through</option>
+                                                                              <option {% if k.status == 'Closed' %}selected{% endif %}>Closed</option>
+                                                                            </select>
+                                                                          </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+{% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    function myfunc(a,b){
+        var h = new XMLHttpRequest();
+        h.open('GET','/changestatus/'+a+'/'+b);
+        h.send()
+    }
+</script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+
+
+
+    <script>
+
+        // Collapse one
+        $('#collapseOne').on('show.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(90deg)");
+
+        });
+        $('#collapseOne').on('hide.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(0)");
+
+        });
+
+        // Collapse Two
+        $('#collapseTwo').on('show.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(90deg)");
+
+        });
+        $('#collapseTwo').on('hide.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(0)");
+
+        });
+
+        // Collapse Three
+        $('#collapseThree').on('show.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(90deg)");
+
+        });
+        $('#collapseThree').on('hide.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(0)");
+
+        });
+
+        // Collapse Four
+        $('#collapseFour').on('show.bs.collapse', function () {
+            $("#collapseFourCaret").css("transform", "rotate(90deg)");
+
+        });
+        $('#collapseFour').on('hide.bs.collapse', function () {
+            $("#collapseFourCaret").css("transform", "rotate(0)");
+
+        });
+
+
+        // Collapse Five
+        $('#collapseFive').on('show.bs.collapse', function () {
+            $("#collapseFiveCaret").css("transform", "rotate(90deg)");
+
+        });
+        $('#collapseFive').on('hide.bs.collapse', function () {
+            $("#collapseFiveCaret").css("transform", "rotate(0)");
+
+        });
+
+        // $('.datepicker').datepicker();
+    </script>
+
+<script src="bootstrap-datepicker.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+        #property_title,
+        #proper_actions {
+            color: red;
+        }
+
+        .btn:focus,
+        .btn:active,
+        textarea:focus,
+        textarea:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn {
+            border: none;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /* Button on an image */
+        .container {
+            position: relative;
+            /* width: 100%; */
+            /* max-width: 400px; */
+        }
+
+        /* .container img { */
+        /* width: 100%; */
+        /* height: 100%; */
+        /* } */
+
+        .container>.btn {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            background-color: rgb(240, 110, 63);
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            /* border-radius: 0px; */
+            text-align: center;
+            display: none;
+        }
+
+        .container>.btn-2 {
+            /* position: absolute; */
+            top: 60%;
+            /* left: 50%; */
+            /* transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  display:none; */
+        }
+
+        .container>.btn:hover {
+            background-color: orangered;
+        }
+
+        .list-group-item{
+            background-color: orangered;
+            color: white;
+        }
+
+        .dropdown-toggle:after { content: none }
+
+        #proper_lists > .list-group-item{
+            background-color: white;
+            color: red;
+            border:none;
+            /* font-size: 15px; */
+            font-weight: bold;
+        }
+
+        .modal-body > a{
+            color:red;
+        }
+
+        .list-group-item-action{
+            background-color: rgb(245, 243, 243);
+        }
+        
+        .list-group-item-action:hover{
+            background-color: white;
+        }

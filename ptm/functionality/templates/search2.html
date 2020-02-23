@@ -1,0 +1,30 @@
+{% include 'base.html' %}
+{% block content %}
+<form method="GET" class="text-center">
+    <input type="text" name="city" style="width: 16%;" placeholder="City" value="">&ensp;
+    <input type="text" name="area" style="width: 16%;" placeholder="Area" value="">
+    <button type="submit" value="Search" class="text-center" style="width: 10%;height: 5%;">
+        <span class="fa fa-search"></span>
+    </button>
+</form>
+<br>
+{% if listofproperty %}
+{% for i in listofproperty %}
+<div class="media position-relative p-1 pt-2 pb-2" style="background-color:#CFCDCD;"
+id="list_{{i.id}}" onclick="window.location.href = '/property-detail/{{i.id}}'">
+<img src="/media/{{i.image1}}" class="mr-3" alt="..." style="cursor: pointer;">
+<div class="media-body">
+    <h5 class="mt-0 text-wrap" style="cursor: pointer;">{{i.address}}<br><span
+            class="font-size-16 font-weight-normal">{{i.address}}<br><span
+                class="font-size-16 font-weight-normal">Status: </span><span
+                class="font-size-16 font-weight-bold">Active</span> </h5>
+
+    <br>
+    <h5 class="mt-0 text-wrap">${{i.price}}<br><span
+            class="font-size-16 font-weight-bold">{{i.sqft}} sqft | {{i.beds}} beds | {{i.baths}} baths
+    </h5>
+</div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

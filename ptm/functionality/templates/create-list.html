@@ -1,0 +1,7 @@
+{% include 'base.html' %}
+{% block content %}
+<form method="POST">{% csrf_token %}
+    <input name="listname" type="text" class="form-control p-0 m-0 border-0 pl-1" autocomplete="off"><br>
+    <input type="submit">
+</form>
+{% endblock %}

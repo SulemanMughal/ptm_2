@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+    <title>UpClinch</title>
+
+    <style>
+
+        /* Scroll Bar */
+   /* width */
+   ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+
+
+        /* End of Scroll Bar */
+    
+        .card-title{
+            color: red;
+        }
+      /* unvisited link */
+      .alert-link:link {
+  color: red;
+}
+
+/* visited link */
+.alert-link:visited {
+  color: red;
+}
+
+/* mouse over link */
+.alert-link:hover {
+  color: red;
+}
+
+/* selected link */
+.alert-link:active {
+  color: red;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+    </style>
+
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+   
+    <div class="mx-auto mt-4" style="width: 80%;">
+        <div class="card mx-auto border-0" style="width: 100%;">
+            
+            <div class="card-body">
+                
+                
+              <h3 class="card-title text-center">My Offers</h3>
+                <div id="accordion">
+                    <div class="card border-0">
+                    <div class="card-header bg-transparent" id="headingOne">
+                        
+                        <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            In Contract &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseOneCaret"></i>
+                        </button>
+                        </h5>
+                            
+                
+                    </div>
+                
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    {% if ic %}
+                    {% for i in ic %}
+                        <div class="mx-auto mt-5" style="width: 80%;">
+                            <div class="overflow-auto" style="height:250px;">
+                                <div class="card border-0 float-right" style="width: auto;">
+                                    <div class="card-body list-group-item-action">
+                                        <div class="media position-relative">
+                                            <img src="/media/{{i.relproperty.image1}}" class="mr-3" alt="...">
+                                            <div class="container">
+                                                <div class="row">
+                                                <div class="col">
+                                                    <div class="media-body">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                        <h5 class="mt-0">
+                                                            {{i.relproperty.address}}
+                                                        <p class="card-text font-weight-normal">
+                                                            {{i.relproperty.address}}
+                                                            <br>
+                                                            Status : <b>Active</b>
+                                                        </p>
+                                                        
+                                                        </h5>
+                                                    </div><br>
+                                                    <div class="col-6">
+                                                        <h5 class="card-title text-right text-dark">${{i.relproperty.price}} <p class="card-text text-right font-weight-normal" style="font-size: 14px;">{{i.relproperty.sqft}} sqft| {{i.relproperty.beds}} beds | {{i.relproperty.baths}} baths</p><p class="card-text text-right font-weight-normal" style="font-size: 14px;">In Contract Date: 11/30/2019</p></h5>
+                                                    </div>
+                                                    </div>
+                                                        <p class="font-weight-bold m-0">
+                                                        Notes:
+                                                    </p>
+                                                        <p class="card-text m-0 overflow-auto" style="height:80px;">
+                                                        {{i.note}}
+                            
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                    
+                                
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="card-body">
+                            No Offers to display
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0">
+                    <div class="card-header bg-transparent" id="headingTwo">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Submitted &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseTwoCaret"></i>
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        {% if sub %}
+                    {% for i in sub %}
+                        <div class="mx-auto mt-5" style="width: 80%;">
+                            <div class="overflow-auto" style="height:250px;">
+                                <div class="card border-0 float-right" style="width: auto;">
+                                    <div class="card-body list-group-item-action">
+                                        <div class="media position-relative">
+                                            <img src="/media/{{i.relproperty.image1}}" class="mr-3" alt="...">
+                                            <div class="container">
+                                                <div class="row">
+                                                <div class="col">
+                                                    <div class="media-body">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                        <h5 class="mt-0">
+                                                            {{i.relproperty.address}}
+                                                        <p class="card-text font-weight-normal">
+                                                            {{i.relproperty.address}}
+                                                            <br>
+                                                            Status : <b>Active</b>
+                                                        </p>
+                                                        
+                                                        </h5>
+                                                    </div><br>
+                                                    <div class="col-6">
+                                                        <h5 class="card-title text-right text-dark">${{i.relproperty.price}} <p class="card-text text-right font-weight-normal" style="font-size: 14px;">{{i.relproperty.sqft}} sqft| {{i.relproperty.beds}} beds | {{i.relproperty.baths}} baths</p><p class="card-text text-right font-weight-normal" style="font-size: 14px;">In Contract Date: 11/30/2019</p></h5>
+                                                    </div>
+                                                    </div>
+                                                        <p class="font-weight-bold m-0">
+                                                        Notes:
+                                                    </p>
+                                                        <p class="card-text m-0 overflow-auto" style="height:80px;">
+                                                        {{i.note}}
+                            
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                    
+                                
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="card-body">
+                            No Offers to display
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card border-0">
+                    <div class="card-header bg-transparent" id="headingThree">
+                        <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Requested &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseThreeCaret"></i>  
+                        </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        {% if req %}
+                        {% for i in req %}
+                            <div class="mx-auto mt-5" style="width: 80%;">
+                                <div class="overflow-auto" style="height:250px;">
+                                    <div class="card border-0 float-right" style="width: auto;">
+                                        <div class="card-body list-group-item-action">
+                                            <div class="media position-relative">
+                                                <img src="/media/{{i.relproperty.image1}}" class="mr-3" alt="...">
+                                                <div class="container">
+                                                    <div class="row">
+                                                    <div class="col">
+                                                        <div class="media-body">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                            <h5 class="mt-0">
+                                                                {{i.relproperty.address}}
+                                                            <p class="card-text font-weight-normal">
+                                                                {{i.relproperty.address}}
+                                                                <br>
+                                                                Status : <b>Active</b>
+                                                            </p>
+                                                            
+                                                            </h5>
+                                                        </div><br>
+                                                        <div class="col-6">
+                                                            <h5 class="card-title text-right text-dark">${{i.relproperty.price}} <p class="card-text text-right font-weight-normal" style="font-size: 14px;">{{i.relproperty.sqft}} sqft| {{i.relproperty.beds}} beds | {{i.relproperty.baths}} baths</p><p class="card-text text-right font-weight-normal" style="font-size: 14px;">In Contract Date: 11/30/2019</p></h5>
+                                                        </div>
+                                                        </div>
+                                                            <p class="font-weight-bold m-0">
+                                                            Notes:
+                                                        </p>
+                                                            <p class="card-text m-0 overflow-auto" style="height:80px;">
+                                                            {{i.note}}
+                                
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                        
+                                    
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <div class="card-body">
+                                No Offers to display
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    <div class="card border-0">
+                        <div class="card-header bg-transparent" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Fell Through &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseFourCaret"></i>  
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                            {% if ft %}
+                    {% for i in ft %}
+                        <div class="mx-auto mt-5" style="width: 80%;">
+                            <div class="overflow-auto" style="height:250px;">
+                                <div class="card border-0 float-right" style="width: auto;">
+                                    <div class="card-body list-group-item-action">
+                                        <div class="media position-relative">
+                                            <img src="/media/{{i.relproperty.image1}}" class="mr-3" alt="...">
+                                            <div class="container">
+                                                <div class="row">
+                                                <div class="col">
+                                                    <div class="media-body">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                        <h5 class="mt-0">
+                                                            {{i.relproperty.address}}
+                                                        <p class="card-text font-weight-normal">
+                                                            {{i.relproperty.address}}
+                                                            <br>
+                                                            Status : <b>Active</b>
+                                                        </p>
+                                                        
+                                                        </h5>
+                                                    </div><br>
+                                                    <div class="col-6">
+                                                        <h5 class="card-title text-right text-dark">${{i.relproperty.price}} <p class="card-text text-right font-weight-normal" style="font-size: 14px;">{{i.relproperty.sqft}} sqft| {{i.relproperty.beds}} beds | {{i.relproperty.baths}} baths</p><p class="card-text text-right font-weight-normal" style="font-size: 14px;">In Contract Date: 11/30/2019</p></h5>
+                                                    </div>
+                                                    </div>
+                                                        <p class="font-weight-bold m-0">
+                                                        Notes:
+                                                    </p>
+                                                        <p class="card-text m-0 overflow-auto" style="height:80px;">
+                                                        {{i.note}}
+                            
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                    
+                                
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="card-body">
+                            No Offers to display
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card border-0">
+                        <div class="card-header bg-transparent" id="headingFive">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Closed &nbsp;<i class="fas fa-caret-right fa-1x" id="collapseFiveCaret"></i>  
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                            {% if cl %}
+                            {% for i in cl %}
+                                <div class="mx-auto mt-5" style="width: 80%;">
+                                    <div class="overflow-auto" style="height:250px;">
+                                        <div class="card border-0 float-right" style="width: auto;">
+                                            <div class="card-body list-group-item-action">
+                                                <div class="media position-relative">
+                                                    <img src="/media/{{i.relproperty.image1}}" class="mr-3" alt="...">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                        <div class="col">
+                                                            <div class="media-body">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                <h5 class="mt-0">
+                                                                    {{i.relproperty.address}}
+                                                                <p class="card-text font-weight-normal">
+                                                                    {{i.relproperty.address}}
+                                                                    <br>
+                                                                    Status : <b>Active</b>
+                                                                </p>
+                                                                
+                                                                </h5>
+                                                            </div><br>
+                                                            <div class="col-6">
+                                                                <h5 class="card-title text-right text-dark">${{i.relproperty.price}} <p class="card-text text-right font-weight-normal" style="font-size: 14px;">{{i.relproperty.sqft}} sqft| {{i.relproperty.beds}} beds | {{i.relproperty.baths}} baths</p><p class="card-text text-right font-weight-normal" style="font-size: 14px;">In Contract Date: 11/30/2019</p></h5>
+                                                            </div>
+                                                            </div>
+                                                                <p class="font-weight-bold m-0">
+                                                                Notes:
+                                                            </p>
+                                                                <p class="card-text m-0 overflow-auto" style="height:80px;">
+                                                                {{i.note}}
+                                    
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                            
+                                        
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="card-body">
+                                    No Offers to display
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                </div>
+            </div>
+          </div>
+      </div>
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+        <script>
+
+
+// $('#collapseOne').collapse({
+//   toggle: true
+// });
+
+// $('#collapseTwo').collapse({
+//   toggle: true
+// });
+
+            // Collapse one
+        $('#collapseOne').on('show.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(90deg)");
+
+});
+$('#collapseOne').on('hide.bs.collapse', function () {
+            $("#collapseOneCaret").css("transform", "rotate(0)");
+
+});
+
+// Collapse Two
+$('#collapseTwo').on('show.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(90deg)");
+
+});
+$('#collapseTwo').on('hide.bs.collapse', function () {
+            $("#collapseTwoCaret").css("transform", "rotate(0)");
+
+});
+
+// Collapse Three
+$('#collapseThree').on('show.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(90deg)");
+
+});
+$('#collapseThree').on('hide.bs.collapse', function () {
+            $("#collapseThreeCaret").css("transform", "rotate(0)");
+
+});
+
+// Collapse Four
+$('#collapseFour').on('show.bs.collapse', function () {
+            $("#collapseFourCaret").css("transform", "rotate(90deg)");
+
+});
+$('#collapseFour').on('hide.bs.collapse', function () {
+            $("#collapseFourCaret").css("transform", "rotate(0)");
+
+});
+
+
+// Collapse Five
+$('#collapseFive').on('show.bs.collapse', function () {
+            $("#collapseFiveCaret").css("transform", "rotate(90deg)");
+
+});
+$('#collapseFive').on('hide.bs.collapse', function () {
+            $("#collapseFiveCaret").css("transform", "rotate(0)");
+
+});
+
+
+        </script>
+
+</body>
+
+</html>

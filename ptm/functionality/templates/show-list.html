@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+{% block content %}
+{% for i in obj.relproperties.all %}
+    <p><a href="{% url 'property-detail' i.id %}">{{i.price}}</a>&ensp;
+        <a>sqft : {{i.sqft}}  beds : {{i.beds}}  baths : {{i.baths}}</a>&ensp;
+        <a href="{% url 'remove-from-list' obj.id i.id %}">remove</a>&ensp;
+        <a href="{% url 'add-note' i.id %}">Add a note</a>
+    </p><br><hr>
+{% endfor %}
+{% endblock %}

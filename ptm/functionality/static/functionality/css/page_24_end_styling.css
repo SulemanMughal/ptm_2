@@ -1,0 +1,163 @@
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: transparent;
+            display: none;
+        }
+
+        .btn:focus,
+        .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .form-control {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .form-control:focus,
+        .form-control:active {
+            outline: none !important;
+            box-shadow: none !important;
+
+        }
+
+        .list-group-item:hover {
+            color: red;
+        }
+
+        .list-group-item {
+            padding: 0px;
+            margin: 0px;
+            padding-left: 2px;
+        }
+
+        .modal-header,
+        .modal-footer {
+            border: 0px;
+        }
+
+        .card-title,
+        .text-right {
+            color: red;
+        }
+
+        .card-body {
+            height: 100px;
+        }
+
+        #outer {
+            width: 600px;
+        }
+
+        .card {
+            width: 35rem;
+            height: 100px;
+        }
+
+        #dynamic_field {
+            height: 200px;
+        }
+
+        .btn-white {
+            float: right;
+        }
+
+        .btn-light {
+            float: right;
+            padding-right: 0px;
+        }
+
+        .btn-dark {
+            float: right;
+            padding-right: 30px;
+        }
+
+        /* unvisited link */
+.alert-link:link {
+  color: red;
+}
+
+/* visited link */
+.alert-link:visited {
+  color: red;
+}
+
+/* mouse over link */
+.alert-link:hover {
+  color: red;
+}
+
+/* selected link */
+.alert-link:active {
+  color: red;
+}
+    
+    .list-group > li:hover{
+        /* color:white; */
+        background-color: white;
+
+    }
+
+    .list-group > li{
+        /* color:white; */
+        background-color: rgb(245, 243, 243);
+
+    }
+    
+    .list-group-item > li  > input{
+        background-color: white;
+    }
+
+    li  > input{
+        background-color: white;
+    }
+    
+    .form-control[readonly] {
+        background-color: rgb(245, 243, 243);
+    }
+
+    .form-control:hover{
+        background-color: white;
+    }
+
+    .form-control {
+        background-color: white;
+    }
+
+    .form-control[readonly]:hover{
+        background-color: white;
+    }
+
+    .text-red{
+        color:red;
+
+    }

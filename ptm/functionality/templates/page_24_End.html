@@ -1,0 +1,190 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel='dns-prefetch' href='//use.fontawesome.com' />
+    <link rel='stylesheet' id='fontawesome-css' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css?ver=5.2.0'
+        type='text/css' media='all' />
+
+    <link rel="stylesheet" href='{% static "functionality/css/page_24_end_styling.css" %}'>
+
+
+    <title>UpClinch</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <input type="hidden" id="listid" value="{{lists.0.id}}">
+    <div class="mx-auto mt-5" id="outer">
+        <div class="modal fade" id="agentsel" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center text-wrap text-dark font-size-20" id="agentsharebody">
+                        <u style="color: red;">
+                            <h4 style="color: red;" id="listname">
+
+                            </h4>
+                        </u>
+                        <p>
+                            is ready to be shared with yout UpClinch Agent
+                            <select id="agentsharesel">
+                                <option>-Select your Agent-</option>
+                                {% for k in agentlist %}
+                                <option>{{k.user.username}}</option>
+                                <input type="hidden" id="{{k.user.username}}" value="{{k.id}}">
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <button class="btn btn-secondary btn-danger" style="border-radius: 0%;padding: 3%;"
+                            onclick="sharefunc()">Share</button><br>
+                    </div>
+                    <div class="modal-footer border-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="buyersel" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center text-wrap text-dark font-size-20">
+                        Select the Buyer to share the list with : <br>
+                        <select class="form-control" onchange="sharelistb(this)">
+                            <option></option>
+                            {% for i in buyerlist %}
+                            <option>{{i.user.username}}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <button class="btn btn-secondary btn-danger" type="button" onclick="removefunc()">Unlink from
+                            buyers</button>
+                    </div>
+                    <div class="modal-footer border-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card border-0">
+            <h4 class="card-title mx-auto">Interest Lists</h4>
+            <div class="card-body">
+                <p class="text text-right">
+                    New Interest List <button type="button" name="add" id="add"
+                        class="btn btn-danger mb-2 border-0 ml-2"><i class="fas fa-plus-circle fa-2x"></i></button>
+                </p>
+                <div class="overflow-auto">
+
+                    {% if agentcheck %}
+                    <ul class="list-group" id="dynamic_field">
+                        {% for i in lists %}
+                        <li class="list-group-item list-group-item-action" id="row_{{i.id}}">
+                            <form method="POST">{% csrf_token %}
+                                <input type="hidden" value="{{i.id}}" name="id">
+                                {% if i.name %}
+                                <input type="text" style="cursor: pointer;" value="{{i.name}}" name="listname"
+                                    class="border-0" readonly id="{{i.id}}" onclick="relocate({{i.id}})">
+                                {% else %}
+                                <input type="text" style="cursor: pointer;" placeholder="Enter the name new list"
+                                    name="listname" class="border-0" id="{{i.id}}">
+                                {% endif %}
+                                <button type="button" class="btn btn-dark border-0 bg-transparent text-dark"
+                                    id="remove_{{i.id}}">
+                                    <i class="far fa-times-circle fa-lg" id="circle_{{i.id}}"></i>
+                                </button>
+
+                                <button type="button" data-target="#buyersel" data-toggle="modal"
+                                    onclick="document.getElementById('listid').value='{{i.id}}'"
+                                    class="btn btn-light border-0 bg-transparent text-dark">
+
+                                    <i class="fas fa-share-square fa-lg" id="share_{{i.id}}"></i>
+                                </button>
+                                <button type="button" id="editButton_{{i.id}}"
+                                    class="btn btn-white border-0 bg-transparent text-dark" onclick="e({{i.id}})">
+                                    <i class="fas fa-edit fa-lg" id="edit_{{i.id}}"></i>
+                                </button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+
+                    <ul class="list-group" id="dynamic_field">
+                        {% for i in lists %}
+                        <li class="list-group-item list-group-item-action p-0 m-0 {% if not i.name %}border border-danger bg-white{% endif %}"
+                            id="row{{i.id}}">
+                            <form method="POST" class="form-inline p-0 m-0">{% csrf_token %}
+                                <input type="hidden" value="{{i.id}}" name="id">
+                                {% if i.name %}
+                                <input type="text" style="cursor: pointer;width:78%;" value="{{i.name}}" name="listname"
+                                    class="form-control p-0 m-0 border-0 pl-1" autocomplete="off" readonly id="{{i.id}}"
+                                    onclick="relocate({{i.id}})">
+                                {% else %}
+                                <input type="text" style="cursor: pointer;width:78%;"
+                                    placeholder="Enter the name new list" name="listname" autocomplete="off"
+                                    class="form-control p-0 m-0 border-0 pl-1" id="{{i.id}}">
+                                {% endif %}
+                                <button type="button" id="editButton_{{i.id}}"
+                                    class="btn btn-white border-0 bg-transparent text-dark" onclick="e({{i.id}})">
+                                    <i class="fas fa-edit fa-lg {% if not i.name %}text-danger{% endif %}"
+                                        id="edit_{{i.id}}" style="float:right;padding-right:0px;"></i>
+                                </button>
+                                <button type="button" data-target="#agentsel" data-toggle="modal"
+                                    onclick="document.getElementById('listid').value='{{i.id}}'"
+                                    class="btn btn-light border-0 bg-transparent text-dark"
+                                    style="float:right;padding-right:0px; padding-left:0px;">
+                                    <i class="fas fa-share-square fa-lg {% if not i.name %}text-danger{% endif %}"
+                                        id="share_{{i.id}}"></i>
+                                </button>
+                                <button type="button" class="btn btn-dark border-0 bg-transparent text-dark"
+                                    id="remove_{{i.id}}" style="float:right;padding-right:0px; ">
+                                    <i class="far fa-times-circle fa-lg {% if not i.name %}text-danger{% endif %}"
+                                        id="circle_{{i.id}}"></i>
+                                </button>
+
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
+
+    <script src='{% static "functionality/js/page_24_end.js" %}'></script>
+
+</body>
+
+</html>

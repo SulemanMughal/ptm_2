@@ -1,0 +1,15 @@
+{% include 'base.html' %}
+{% block content %}
+    {% if sent %}
+    <h3>Sent : </h3>
+    {% for i in sent %}
+        <p>
+            {{i.user.username}} left a note on <a href="{% url 'property-detail' i.relproperty.id %}">this property</a><br>
+            Note : {{i.note}}<br>
+            <a href="{% url 'reply-to-note' i.id %}">Reply to this notes</a>
+        </p>
+    {% endfor %}
+    {% else %}
+    <h3>No Notes found</h3>
+    {% endif %}
+{% endblock %}

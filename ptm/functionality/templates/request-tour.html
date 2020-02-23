@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+{% block content %}
+<form method="POST">{% csrf_token %}
+    <input type="hidden" value="{{id}}" name="id">
+    Date 1 : <input type="text" name="date1">&ensp;Time 1 : <input type="text" name="time1">&ensp;Time 2 : <input type="text" name="time2">&ensp;Time 3 : <input type="text" name="time3"><br>
+    Date 2 : <input type="text" name="date2">&ensp;Time 1 : <input type="text" name="time4">&ensp;Time 2 : <input type="text" name="time5">&ensp;Time 3 : <input type="text" name="time6"><br>
+    Date 3 : <input type="text" name="date3">&ensp;Time 1 : <input type="text" name="time7">&ensp;Time 2 : <input type="text" name="time8">&ensp;Time 3 : <input type="text" name="time9"><br>
+    <input type="submit" value="Request Tour">
+</form>
+{% endblock %}
